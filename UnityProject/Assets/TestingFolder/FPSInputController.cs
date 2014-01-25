@@ -9,13 +9,13 @@ using System.Collections.Generic;
 public class FPSInputController : MonoBehaviour
 {
     private CharacterMotor motor;
-	private GenerateLevel generateLevel;
+	private Level level;
 
     // Use this for initialization
     void Awake()
     {
         motor = GetComponent<CharacterMotor>();
-		generateLevel = GameObject.Find ("GenerateLevel").GetComponent<GenerateLevel>();
+		level = GameObject.Find ("Level").GetComponent<Level>();
     }
 
     // Update is called once per frame
@@ -48,7 +48,7 @@ public class FPSInputController : MonoBehaviour
 
 		// Debug.Log (Input.GetButton ("Fire1"));
 
-		if (Input.GetButton ("Fire1")) {
+		if (Input.GetButton ("joystick button 0")) {
 			changeColor(Color.red);
 		}
 		if (Input.GetButton ("Fire2")) {
@@ -59,13 +59,13 @@ public class FPSInputController : MonoBehaviour
 	private void changeColor(Color color){
 
 		// The offset is off, lets fix it tomorrow!!!
-		float playerX = motor.transform.position.x + generateLevel.tileWidth / 2;
-		float playerZ = motor.transform.position.z + generateLevel.tileHeight / 2;
+		float playerX = motor.transform.position.x + level.tile.transform.localScale.x / 2;
+		float playerZ = motor.transform.position.z + level.tile.transform.localScale.y / 2;
 		
-		int tileX = (int) (playerX / generateLevel.tileWidth);
-		int tileZ = (int) (playerZ / generateLevel.tileHeight);
+		int tileX = (int) (playerX / level.tile.transform.localScale.x);
+		int tileZ = (int) (playerZ / level.tile.transform.localScale.z);
 		
-		generateLevel.getTile(tileX, tileZ).renderer.material.color = color;
+		level.getTile(tileX, tileZ).renderer.material.color = color;
 	}
 
 }
