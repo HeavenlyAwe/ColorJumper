@@ -23,7 +23,7 @@ public class Level : MonoBehaviour {
 		for (int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++){
 				Vector3 pos = new Vector3(i * (tileWidth + tileOffset), 0, j * (tileHeight + tileOffset));
-				tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform02"), pos, Quaternion.identity);
+				tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform"), pos, Quaternion.identity);
 				tiles[i, j].name = "Tile_x" + i + "_y" + j;
 
 				// choose random color for the tile:
