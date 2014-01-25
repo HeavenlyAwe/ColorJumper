@@ -19,10 +19,6 @@ public class Level : MonoBehaviour {
 	public GameObject[] players;
 	public int playerAmount = 2;
 
-	public GameObject player1;
-	public GameObject player2;
-
-
 	// Use this for initialization
 	void Start () {	
 		setupPlayers ();
@@ -43,8 +39,14 @@ public class Level : MonoBehaviour {
 		for (int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++){
 				Vector3 pos = new Vector3(i * (tileWidth + tileOffset), 0, j * (tileHeight + tileOffset));
-				tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Tile"), pos, Quaternion.identity);
+				tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform"), pos, Quaternion.identity);
 				tiles[i, j].name = "Tile_x" + i + "_y" + j;
+
+				// choose random color for the tile:
+				PlatformInformation platformInfo = tiles[i,j].GetComponent<PlatformInformation>();
+				System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
+				int randomColorNumber = UnityEngine.Random.Range(0, platformColorArray.Length);
+				platformInfo.platformColor = (PlatformInformation.PlatformColor)platformColorArray.GetValue(randomColorNumber);
 			}
 		}
 	}

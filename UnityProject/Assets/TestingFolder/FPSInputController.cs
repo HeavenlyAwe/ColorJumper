@@ -16,7 +16,7 @@ public class FPSInputController : MonoBehaviour
     {
         motor = GetComponent<CharacterMotor> ();
 		level = GameObject.Find ("Level").GetComponent<Level>();
-    }
+	}
 
     // Update is called once per frame
     void Update()
@@ -53,30 +53,34 @@ public class FPSInputController : MonoBehaviour
 		float jumpValue = Input.GetAxis (this.name + "_Jump");
 		motor.inputJump = Mathf.Abs(jumpValue) > 0.5f;
 
-		checkButton(this.name + "_Green");
-		checkButton (this.name + "_Red");
-		checkButton (this.name + "_Blue");
-		checkButton (this.name + "_Yellow");
+		checkButtons();
 	}
 
-	private void checkButton(string text) {
-		if (Input.GetButton (text)) {
-			Debug.Log (text);
-			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), text);
+	private void checkButtons() {
+		if (Input.GetButton (this.name + "_Green")) {
+			changeColor (PlatformInformation.PlatformColor.GREEN);
+		} else if (Input.GetButton (this.name + "_Red")) {
+			changeColor (PlatformInformation.PlatformColor.RED);
+		} else if (Input.GetButton (this.name + "_Blue")) {
+			changeColor (PlatformInformation.PlatformColor.BLUE); 
+		} else if (Input.GetButton (this.name + "_Yellow")) {
+			changeColor (PlatformInformation.PlatformColor.YELLOW);
 		}
 	}
 	
-	private void changeColor(Color color){
-		/*
-		// The offset is off, lets fix it tomorrow!!!
-		float playerX = motor.transform.position.x + level.tile.transform.localScale.x / 2;
-		float playerZ = motor.transform.position.z + level.tile.transform.localScale.y / 2;
-		
-		int tileX = (int) (playerX / level.tile.transform.localScale.x);
-		int tileZ = (int) (playerZ / level.tile.transform.localScale.z);
-		
-		level.getTile(tileX, tileZ).renderer.material.color = color;
-		*/
+	private void changeColor(PlatformInformation.PlatformColor color){
+		for (int i = 0; i < level.width; i++) {
+			for(int j = 0; j < level.height; j++){
+				FadingEffect tileFadeEffect = level.tiles[i, j].GetComponentInChildren<FadingEffect> ();
+
+				if (level.tiles[i, j].GetComponent<PlatformInformation>().platformColor == color) {
+					tileFadeEffect.FadeOutTile ();
+				}
+				else {
+					tileFadeEffect.FadeInTile ();
+				}
+			}
+		}
 	}
 
 }
