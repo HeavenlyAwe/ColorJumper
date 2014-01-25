@@ -14,47 +14,57 @@ public class FPSInputController : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        motor = GetComponent<CharacterMotor>();
+        motor = GetComponent<CharacterMotor> ();
 		level = GameObject.Find ("Level").GetComponent<Level>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Get the input vector from kayboard or analog stick
-        Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
-        if (directionVector != Vector3.zero)
-        {
-            // Get the length of the directon vector and then normalize it
-            // Dividing by the length is cheaper than normalizing when we already have the length anyway
-            float directionLength = directionVector.magnitude;
-            directionVector = directionVector / directionLength;
-
-            // Make sure the length is no bigger than 1
-            directionLength = Mathf.Min(1.0f, directionLength);
-
-            // Make the input vector more sensitive towards the extremes and less sensitive in the middle
-            // This makes it easier to control slow speeds when using analog sticks
-            directionLength = directionLength * directionLength;
-
-            // Multiply the normalized direction vector by the modified length
-            directionVector = directionVector * directionLength;
-        }
-
-        // Apply the direction to the CharacterMotor
-        motor.inputMoveDirection = transform.rotation * directionVector;
-        motor.inputJump = Input.GetButton("Jump");
-
-		// Debug.Log (Input.GetButton ("Fire1"));
-
-		if (Input.GetButton ("Fire1")) {
-			changeColor(Color.red);
-		}
-		if (Input.GetButton ("Fire2")) {
-			changeColor(Color.white);
-		}
+		movePlayer ();
     }
+
+	private void movePlayer() {
+		Vector3 directionVector = new Vector3 (Input.GetAxis (this.name + "_Horizontal"), 0, Input.GetAxis (this.name+ "_Vertical"));
+
+		if (directionVector != Vector3.zero) {
+			// Get the length of the directon vector and then normalize it
+			// Dividing by the length is cheaper than normalizing when we already have the length anyway
+			float directionLength = directionVector.magnitude;
+			directionVector = directionVector / directionLength;
+			
+			// Make sure the length is no bigger than 1
+			directionLength = Mathf.Min(1.0f, directionLength);
+			
+			// Make the input vector more sensitive towards the extremes and less sensitive in the middle
+			// This makes it easier to control slow speeds when using analog sticks
+			directionLength = directionLength * directionLength;
+			
+			// Multiply the normalized direction vector by the modified length
+			directionVector = directionVector * directionLength;
+		}
+
+		// Apply the direction to the CharacterMotor
+		motor.inputMoveDirection = transform.rotation * directionVector;
+
+		// transform.position += transform.rotation * directionVector;
+		// motor.inputJump = Input.GetButton("Jump");
+
+		float jumpValue = Input.GetAxis (this.name + "_Jump");
+		motor.inputJump = Mathf.Abs(jumpValue) > 0.5f;
+
+		checkButton(this.name + "_Green");
+		checkButton (this.name + "_Red");
+		checkButton (this.name + "_Blue");
+		checkButton (this.name + "_Yellow");
+	}
+
+	private void checkButton(string text) {
+		if (Input.GetButton (text)) {
+			Debug.Log (text);
+			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), text);
+		}
+	}
 	
 	private void changeColor(Color color){
 		/*
