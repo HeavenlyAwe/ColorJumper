@@ -38,7 +38,9 @@ public class FadingEffect : MonoBehaviour {
 				onFadeOutComplete();
 			}
 			
-			renderer.material.color = color;
+			renderer.materials[0].color = color;
+			renderer.materials[1].color = color;
+			renderer.materials[2].color = color;
 		}
 		else if (isTweeningIn) {
 			Color color = renderer.material.color;
@@ -50,7 +52,9 @@ public class FadingEffect : MonoBehaviour {
 				onFadeInComplete();
 			}
 			
-			renderer.material.color = color;
+			renderer.materials[0].color = color;
+			renderer.materials[1].color = color;
+			renderer.materials[2].color = color;
 		}
 	}
 	
