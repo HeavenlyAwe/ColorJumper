@@ -23,9 +23,11 @@ public class FadingEffect : MonoBehaviour {
 
 		PlatformInformation platformInfo = gameObject.transform.parent.gameObject.GetComponent<PlatformInformation>();
 
+		/*
 		if (platformInfo.platformColor == PlatformInformation.PlatformColor.BLUE) {
 			FadeOutTile ();
 		}
+		*/
 	}
 	
 	// Update is called once per frame
@@ -57,7 +59,7 @@ public class FadingEffect : MonoBehaviour {
 	}
 	
 	public void FadeOutTile() {
-		Debug.Log ("fadeout");
+		// Debug.Log ("fadeout");
 		if (renderer.material.color.a > 0.0f) {
 			isTweeningOut = true;
 			isTweeningIn = false;
@@ -65,7 +67,7 @@ public class FadingEffect : MonoBehaviour {
 	}
 	
 	public void FadeInTile() {
-		Debug.Log ("fadein");
+		// Debug.Log ("fadein");
 		if (renderer.material.color.a < fullAlpha) {
 			isTweeningIn = true;
 			isTweeningOut = false;

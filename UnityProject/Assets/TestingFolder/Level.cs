@@ -16,15 +16,32 @@ public class Level : MonoBehaviour {
 
 	public float tileOffset = 0.5f;
 
+	public GameObject[] players;
+	public int playerAmount = 2;
+
 	// Use this for initialization
-	void Start () {
-	
+	void Start () {	
+		setupPlayers ();
+		setupLevel ();
+	}
+
+	private void setupPlayers(){
+		players = new GameObject[playerAmount];
+		for (int i = 0; i < playerAmount; i++) {
+			Vector3 playerPosition = new Vector3(i*10, 10, i*10);
+			players[i] = (GameObject)Instantiate(Resources.Load ("Player"), playerPosition, Quaternion.identity);
+			players[i].name = "Player" + (i+1);
+		}
+	}
+
+	private void setupLevel(){
 		tiles = new GameObject[width, height];
 		for (int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++){
 				Vector3 pos = new Vector3(i * (tileWidth + tileOffset), 0, j * (tileHeight + tileOffset));
 				tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform"), pos, Quaternion.identity);
 				tiles[i, j].name = "Tile_x" + i + "_y" + j;
+
 
 				// choose random color for the tile:
 				PlatformInformation platformInfo = tiles[i,j].GetComponent<PlatformInformation>();
@@ -51,19 +68,10 @@ public class Level : MonoBehaviour {
 				platformInfo.tileObject.renderer.material = material;
 			}
 		}
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		/*
-		for (int i = 0; i < width; i++) {
-			for(int j = 0; j < height; j++) {
-				tiles[i,j].transform.position = new Vector3(i * (tile.transform.localScale.x + tileOffset), 0, j * (tile.transform.localScale.z + tileOffset));
-			}
-		}
-		*/
-
 	}
 
 	public GameObject getTile(int x, int z) {
