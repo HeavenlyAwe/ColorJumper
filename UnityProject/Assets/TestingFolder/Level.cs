@@ -25,6 +25,12 @@ public class Level : MonoBehaviour {
 				Vector3 pos = new Vector3(i * (tileWidth + tileOffset), 0, j * (tileHeight + tileOffset));
 				tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform"), pos, Quaternion.identity);
 				tiles[i, j].name = "Tile_x" + i + "_y" + j;
+
+				// choose random color for the tile:
+				PlatformInformation platformInfo = tiles[i,j].GetComponent<PlatformInformation>();
+				System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
+				int randomColorNumber = UnityEngine.Random.Range(0, platformColorArray.Length);
+				platformInfo.platformColor = (PlatformInformation.PlatformColor)platformColorArray.GetValue(randomColorNumber);
 			}
 		}
 
