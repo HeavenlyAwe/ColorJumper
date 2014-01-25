@@ -68,13 +68,15 @@ public class FPSInputController : MonoBehaviour
 		}
 	}
 	
-	private void changeColor(PlatformInformation.PlatformColor color){
+	private void changeColor(PlatformInformation.PlatformColor color) {
+		gameObject.GetComponent<PlayerInformation>().color = color;
+
 		for (int i = 0; i < level.width; i++) {
 			for(int j = 0; j < level.height; j++){
 				PlatformInformation platformInfo = level.tiles[i, j].GetComponent<PlatformInformation>();
 				FadingEffect tileFadeEffect = platformInfo.fadingEffect;
 
-				if (platformInfo.platformColor == color) {
+				if (!level.getCurrentlyActiveColors().Contains(platformInfo.platformColor)) {
 					tileFadeEffect.FadeOutTile ();
 				}
 				else {

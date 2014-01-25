@@ -31,6 +31,8 @@ public class Level : MonoBehaviour {
 			Vector3 playerPosition = new Vector3(i*10, 10, i*10);
 			players[i] = (GameObject)Instantiate(Resources.Load ("Player"), playerPosition, Quaternion.identity);
 			players[i].name = "Player" + (i+1);
+			System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
+			players[i].GetComponent<PlayerInformation>().color = (PlatformInformation.PlatformColor)platformColorArray.GetValue(i);
 		}
 	}
 
@@ -76,5 +78,19 @@ public class Level : MonoBehaviour {
 
 	public GameObject getTile(int x, int z) {
 		return tiles[x, z];
+	}
+
+	public ArrayList getCurrentlyActiveColors() {
+		ArrayList colors = new ArrayList();
+
+		for (int i = 0; i < players.Length; i++) {
+
+			if (players[i].GetComponent<PlayerInformation>().isAlive &&
+			                     !colors.Contains(players[i].GetComponent<PlayerInformation>().color)) {
+				colors.Add(players[i].GetComponent<PlayerInformation>().color);
+			}
+		}
+
+		return colors;
 	}
 }

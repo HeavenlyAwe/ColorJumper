@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class FadingEffect : MonoBehaviour {
-	
+
 	bool isTweeningOut;
 	bool isTweeningIn;
 	float fadeTime; //in seconds
@@ -22,12 +22,6 @@ public class FadingEffect : MonoBehaviour {
 		fadeTime = 2.0f;
 
 		PlatformInformation platformInfo = gameObject.transform.parent.gameObject.GetComponent<PlatformInformation>();
-
-		/*
-		if (platformInfo.platformColor == PlatformInformation.PlatformColor.BLUE) {
-			FadeOutTile ();
-		}
-		*/
 	}
 	
 	// Update is called once per frame
