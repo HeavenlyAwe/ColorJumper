@@ -69,13 +69,13 @@ public class FadingEffect : MonoBehaviour {
 	}
 	
 	void onFadeOutComplete() {
-		collider.enabled = false;
+		gameObject.transform.parent.gameObject.collider.enabled = false;
 		isTweeningOut = false;
 		FadeInTile ();
 	}
 	
 	void onFadeInComplete() {
-		collider.enabled = true;
+		gameObject.transform.parent.gameObject.collider.enabled = true;
 		isTweeningIn = false;
 		FadeOutTile ();
 	}
