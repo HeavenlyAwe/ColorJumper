@@ -10,10 +10,12 @@ public class PlatformInformation : MonoBehaviour {
 	};
 
 	public PlatformColor platformColor;
+	public FadingEffect fadingEffect;
+	public GameObject tileObject;
 
 	// Use this for initialization
 	void Start () {
-	
+		fadingEffect = GetComponentInChildren<FadingEffect> ();
 	}
 	
 	// Update is called once per frame

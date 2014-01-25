@@ -31,6 +31,24 @@ public class Level : MonoBehaviour {
 				System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
 				int randomColorNumber = UnityEngine.Random.Range(0, platformColorArray.Length);
 				platformInfo.platformColor = (PlatformInformation.PlatformColor)platformColorArray.GetValue(randomColorNumber);
+
+
+				Material material = (Material) Resources.Load ("Prefabs/Materials/platform_red");
+
+				if (platformInfo.platformColor == PlatformInformation.PlatformColor.RED) {
+					material = (Material) Resources.Load ("Prefabs/Materials/platform_red");
+				}
+				else if (platformInfo.platformColor == PlatformInformation.PlatformColor.BLUE) {
+					material = (Material) Resources.Load ("Prefabs/Materials/platform_blue");
+				}
+				else if (platformInfo.platformColor == PlatformInformation.PlatformColor.YELLOW) {
+					material = (Material) Resources.Load ("Prefabs/Materials/platform_yellow");
+				}
+				else if (platformInfo.platformColor == PlatformInformation.PlatformColor.GREEN) {
+					material = (Material) Resources.Load ("Prefabs/Materials/platform_green");
+				}
+
+				platformInfo.tileObject.renderer.material = material;
 			}
 		}
 
