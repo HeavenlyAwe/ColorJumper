@@ -19,6 +19,9 @@ public class Level : MonoBehaviour {
 	public GameObject[] players;
 	public int playerAmount = 2;
 
+
+	public AudioSource deathSound1;
+
 	// Use this for initialization
 	void Start () {	
 		setupPlayers ();

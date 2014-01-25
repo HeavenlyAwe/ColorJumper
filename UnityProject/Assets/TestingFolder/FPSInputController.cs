@@ -11,11 +11,15 @@ public class FPSInputController : MonoBehaviour
     private CharacterMotor motor;
 	private Level level;
 
+	private AudioSource[] deathSounds;
+
     // Use this for initialization
     void Awake()
     {
         motor = GetComponent<CharacterMotor> ();
 		level = GameObject.Find ("Level").GetComponent<Level>();
+
+		deathSounds = GetComponents <AudioSource>();
 	}
 
     // Update is called once per frame
@@ -26,7 +30,6 @@ public class FPSInputController : MonoBehaviour
 
 	private void movePlayer() {
 		Vector3 directionVector = new Vector3 (Input.GetAxis (this.name + "_Horizontal"), 0, Input.GetAxis (this.name + "_Vertical"));
-		Debug.Log (directionVector);
 		if (directionVector != Vector3.zero) {
 			// Get the length of the directon vector and then normalize it
 			// Dividing by the length is cheaper than normalizing when we already have the length anyway
@@ -52,6 +55,14 @@ public class FPSInputController : MonoBehaviour
 
 		float jumpValue = Input.GetAxis (this.name + "_Jump");
 		motor.inputJump = Mathf.Abs(jumpValue) > 0.5f;
+
+
+		if (transform.position.y < -5) {
+			Debug.Log ("Died");
+			deathSounds[0].transform.position = new Vector3(50, 60, -30);
+			deathSounds[0].Play();
+		}
+
 
 		checkButtons();
 	}
