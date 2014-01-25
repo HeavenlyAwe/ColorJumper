@@ -38,11 +38,11 @@ public class CameraZoom : MonoBehaviour {
 		distanceBetweenPlayers = Vector2.Distance (player1position, player2position);
 
 //		if (distanceBetweenPlayers > 0)
-//		{
-	 		zoomSpeed = distanceBetweenPlayers / 10;
-
-
-	 		camera.fieldOfView=Mathf.Lerp(camera.fieldOfView,zoomSpeed,Time.deltaTime*smooth);
+////		{
+//	 		zoomSpeed = distanceBetweenPlayers / 10;
+//
+//
+//	 		camera.fieldOfView=Mathf.Lerp(camera.fieldOfView,zoomSpeed,Time.deltaTime*smooth);
 	 
 // 	    }
 
