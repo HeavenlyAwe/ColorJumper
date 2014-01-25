@@ -49,14 +49,27 @@ public class FPSInputController : MonoBehaviour
 		// Debug.Log (Input.GetButton ("Fire1"));
 
 		if (Input.GetButton ("Fire1")) {
-			changeColor(Color.red);
+			changeColor(PlatformInformation.PlatformColor.RED);
 		}
 		if (Input.GetButton ("Fire2")) {
-			changeColor(Color.white);
+			changeColor(PlatformInformation.PlatformColor.YELLOW);
 		}
 	}
 	
-	private void changeColor(Color color){
+	private void changeColor(PlatformInformation.PlatformColor color){
+		for (int i = 0; i < level.width; i++) {
+			for(int j = 0; j < level.height; j++){
+				FadingEffect tileFadeEffect = level.tiles[i, j].GetComponentInChildren<FadingEffect> ();
+
+				if (level.tiles[i, j].GetComponent<PlatformInformation>().platformColor == color) {
+					tileFadeEffect.FadeOutTile ();
+				}
+				else {
+					tileFadeEffect.FadeInTile ();
+				}
+			}
+		}
+
 		/*
 		// The offset is off, lets fix it tomorrow!!!
 		float playerX = motor.transform.position.x + level.tile.transform.localScale.x / 2;
