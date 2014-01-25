@@ -16,7 +16,7 @@ public class FPSInputController : MonoBehaviour
     {
         motor = GetComponent<CharacterMotor>();
 		level = GameObject.Find ("Level").GetComponent<Level>();
-    }
+	}
 
     // Update is called once per frame
     void Update()
@@ -54,7 +54,7 @@ public class FPSInputController : MonoBehaviour
 		if (Input.GetButton ("Fire2")) {
 			changeColor(Color.white);
 		}
-    }
+	}
 	
 	private void changeColor(Color color){
 		/*
