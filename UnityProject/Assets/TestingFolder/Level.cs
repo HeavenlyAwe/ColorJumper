@@ -28,7 +28,7 @@ public class Level : MonoBehaviour {
 	private void setupPlayers(){
 		players = new GameObject[playerAmount];
 		for (int i = 0; i < playerAmount; i++) {
-			Vector3 playerPosition = new Vector3(i*10, 2, i*10);
+			Vector3 playerPosition = new Vector3(i*10, 10, i*10);
 			players[i] = (GameObject)Instantiate(Resources.Load ("Player"), playerPosition, Quaternion.identity);
 			players[i].name = "Player" + (i+1);
 		}
@@ -41,6 +41,7 @@ public class Level : MonoBehaviour {
 				Vector3 pos = new Vector3(i * (tileWidth + tileOffset), 0, j * (tileHeight + tileOffset));
 				tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform"), pos, Quaternion.identity);
 				tiles[i, j].name = "Tile_x" + i + "_y" + j;
+
 
 				// choose random color for the tile:
 				PlatformInformation platformInfo = tiles[i,j].GetComponent<PlatformInformation>();

@@ -1,10 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\TestingFolder\FPSInputController.cs">
     <Files>
-      <File FileName="Assets\TestingFolder\FPSInputController.cs" Line="56" Column="18" />
-      <File FileName="Assets\Scripts\FadingEffect.cs" Line="61" Column="3" />
-      <File FileName="Assets\TestingFolder\Level.cs" Line="40" Column="29" />
+      <File FileName="Assets\TestingFolder\FPSInputController.cs" Line="29" Column="31" />
+      <File FileName="Assets\Scripts\FadingEffect.cs" Line="66" Column="25" />
+      <File FileName="Assets\TestingFolder\Level.cs" Line="44" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

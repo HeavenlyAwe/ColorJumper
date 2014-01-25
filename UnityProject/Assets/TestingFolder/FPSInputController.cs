@@ -25,8 +25,8 @@ public class FPSInputController : MonoBehaviour
     }
 
 	private void movePlayer() {
-		Vector3 directionVector = new Vector3 (Input.GetAxis (this.name + "_Horizontal"), 0, Input.GetAxis (this.name+ "_Vertical"));
-
+		Vector3 directionVector = new Vector3 (Input.GetAxis (this.name + "_Horizontal"), 0, Input.GetAxis (this.name + "_Vertical"));
+		Debug.Log (directionVector);
 		if (directionVector != Vector3.zero) {
 			// Get the length of the directon vector and then normalize it
 			// Dividing by the length is cheaper than normalizing when we already have the length anyway
