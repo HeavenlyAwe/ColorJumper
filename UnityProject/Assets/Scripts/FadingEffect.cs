@@ -61,24 +61,28 @@ public class FadingEffect : MonoBehaviour {
 	}
 	
 	public void FadeOutTile() {
-		isTweeningOut = true;
-		isTweeningIn = false;
+		Debug.Log ("fadeout");
+		if (renderer.material.color.a > 0.0f) {
+			isTweeningOut = true;
+			isTweeningIn = false;
+		}
 	}
 	
 	public void FadeInTile() {
-		isTweeningIn = true;
-		isTweeningOut = false;
+		Debug.Log ("fadein");
+		if (renderer.material.color.a < fullAlpha) {
+			isTweeningIn = true;
+			isTweeningOut = false;
+		}
 	}
 	
 	void onFadeOutComplete() {
 		gameObject.transform.parent.gameObject.collider.enabled = false;
 		isTweeningOut = false;
-		FadeInTile ();
 	}
 	
 	void onFadeInComplete() {
 		gameObject.transform.parent.gameObject.collider.enabled = true;
 		isTweeningIn = false;
-		FadeOutTile ();
 	}
 }
