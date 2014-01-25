@@ -48,7 +48,7 @@ public class FPSInputController : MonoBehaviour
 
 		// Debug.Log (Input.GetButton ("Fire1"));
 
-		if (Input.GetButton ("joystick button 0")) {
+		if (Input.GetButton ("Fire1")) {
 			changeColor(Color.red);
 		}
 		if (Input.GetButton ("Fire2")) {
@@ -57,7 +57,7 @@ public class FPSInputController : MonoBehaviour
     }
 	
 	private void changeColor(Color color){
-
+		/*
 		// The offset is off, lets fix it tomorrow!!!
 		float playerX = motor.transform.position.x + level.tile.transform.localScale.x / 2;
 		float playerZ = motor.transform.position.z + level.tile.transform.localScale.y / 2;
@@ -66,6 +66,7 @@ public class FPSInputController : MonoBehaviour
 		int tileZ = (int) (playerZ / level.tile.transform.localScale.z);
 		
 		level.getTile(tileX, tileZ).renderer.material.color = color;
+		*/
 	}
 
 }
