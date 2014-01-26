@@ -6,6 +6,11 @@ public class Level : MonoBehaviour {
 	// Instance to the tile object
 	// public GameObject tile;
 
+	Material materialGreen;
+	Material materialRed;
+	Material materialBlue;
+	Material materialYellow;
+
 	// The grid of the level
 	public GameObject[,] tiles;
 	public int width = 10;
@@ -51,6 +56,11 @@ public class Level : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		materialGreen = (Material) Resources.Load ("Prefabs/Materials/character_green");
+		materialRed = (Material) Resources.Load ("Prefabs/Materials/character_red");
+		materialBlue = (Material) Resources.Load ("Prefabs/Materials/character_blue");
+		materialYellow = (Material) Resources.Load ("Prefabs/Materials/character_yellow");
+
 		setupLevel ();
 		setupSounds ();
 		setupPlayers ();
@@ -93,6 +103,20 @@ public class Level : MonoBehaviour {
 		playerInformations [i].isAlive = true;
 		playerInformations [i].isSpawning = true;
 		playerInformations [i].isDying = false;
+
+		if (playerInformations[i].color == PlatformInformation.PlatformColor.RED) {
+			players[i].GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialRed;
+		}
+		else if (playerInformations[i].color == PlatformInformation.PlatformColor.BLUE) {
+			players[i].GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialBlue;
+		}
+		else if (playerInformations[i].color == PlatformInformation.PlatformColor.YELLOW) {
+			players[i].GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialYellow;
+		}
+		else if (playerInformations[i].color == PlatformInformation.PlatformColor.GREEN) {
+			players[i].GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialGreen;
+		}
+
 		spawnPoints[i] = (GameObject) Instantiate (Resources.Load ("SpawnPoint"), playerPosition, Quaternion.identity);
 	}
 
