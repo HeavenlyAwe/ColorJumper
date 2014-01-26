@@ -18,6 +18,7 @@ public class Level : MonoBehaviour {
 
 	public GameObject[] players;
 	public int playerAmount = 2;
+	private Vector3[] spawnCoordinates;
 
 	private AudioClip[] deathSounds;
 	public AudioClip deathSound1;
@@ -26,17 +27,34 @@ public class Level : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {	
-		setupPlayers ();
 		setupLevel ();
 		setupSounds ();
+		setupPlayers ();
 	}
 
 	private void setupPlayers(){
+		spawnCoordinates = new Vector3[4];
+		spawnCoordinates [0] = new Vector3 (0, 10, 0);
+		spawnCoordinates [1] = new Vector3 (width * (tileWidth + tileOffset) - tileWidth, 10, 0);
+		spawnCoordinates [2] = new Vector3 (0, 10, height * (tileHeight + tileOffset) - tileHeight);
+		spawnCoordinates [3] = new Vector3(width * (tileWidth + tileOffset) - tileWidth, 10, height * (tileHeight + tileOffset) - tileHeight);
+
 		players = new GameObject[playerAmount];
 		for (int i = 0; i < playerAmount; i++) {
-			Vector3 playerPosition = new Vector3(i*10, 10, i*10);
-			players[i] = (GameObject)Instantiate(Resources.Load ("Player"), playerPosition, Quaternion.identity);
+			spawnPlayer(i);
+		}
+	}
+
+	private void spawnPlayer(int i){
+		if (players [i] == null) {
+			Vector3 playerPosition = spawnCoordinates[i];
+			players[i] = (GameObject)Instantiate(Resources.Load ("Maincharacter"), playerPosition, Quaternion.identity);
 			players[i].name = "Player" + (i+1);
+			System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
+			players[i].GetComponent<PlayerInformation>().color = (PlatformInformation.PlatformColor)platformColorArray.GetValue(i);
+		} else {
+			Vector3 playerPosition = spawnCoordinates[i];
+			players[i].transform.position = playerPosition;
 			System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
 			players[i].GetComponent<PlayerInformation>().color = (PlatformInformation.PlatformColor)platformColorArray.GetValue(i);
 		}

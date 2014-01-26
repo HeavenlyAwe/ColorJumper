@@ -8,6 +8,17 @@ using System.Collections.Generic;
 
 public class FPSInputController : MonoBehaviour
 {
+	private PlayerInformation playerInformation;
+
+	public Animator anim;
+	private AnimatorStateInfo currentBaseState;	
+	private AnimatorStateInfo layer2CurrentState;
+	
+	static int idleState = Animator.StringToHash("Base Layer.Idle");	
+	static int runState = Animator.StringToHash("Base Layer.Run");
+	static int jumpState = Animator.StringToHash("Base Layer.Jump");
+
+
     private CharacterMotor motor;
 	private Level level;
 
@@ -16,6 +27,10 @@ public class FPSInputController : MonoBehaviour
     {
         motor = GetComponent<CharacterMotor> ();
 		level = GameObject.Find ("Level").GetComponent<Level>();
+
+		playerInformation = GetComponent<PlayerInformation> ();
+
+		anim = GetComponent<Animator> ();
 	}
 
     // Update is called once per frame
@@ -25,6 +40,7 @@ public class FPSInputController : MonoBehaviour
     }
 
 	private void movePlayer() {
+
 		Vector3 directionVector = new Vector3 (Input.GetAxis (this.name + "_Horizontal"), 0, Input.GetAxis (this.name + "_Vertical"));
 		if (directionVector != Vector3.zero) {
 			// Get the length of the directon vector and then normalize it
@@ -41,7 +57,20 @@ public class FPSInputController : MonoBehaviour
 			
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
+
+
+			anim.SetBool ("run", true);
+			anim.SetBool ("idle", false);
+		} else {
+			anim.SetBool("idle", true);
+			anim.SetBool ("run", false);
 		}
+
+		/*
+		Vector3 moveDirection = transform.rotation * directionVector;
+		Quaternion newRotation = Quaternion.LookRotation (directionVector);
+		transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 8);
+*/
 
 		// Apply the direction to the CharacterMotor
 		motor.inputMoveDirection = transform.rotation * directionVector;
@@ -49,16 +78,49 @@ public class FPSInputController : MonoBehaviour
 		// transform.position += transform.rotation * directionVector;
 		// motor.inputJump = Input.GetButton("Jump");
 
+		float pushValue = Input.GetAxis (this.name + "_Push");
+		if(pushValue > 0.5f){
+			anim.SetBool("push", true);
+		} else {
+			anim.SetBool("push", false);
+		}
+
 		float jumpValue = Input.GetAxis (this.name + "_Jump");
-		motor.inputJump = Mathf.Abs(jumpValue) > 0.5f;
+		motor.inputJump = jumpValue > 0.5f;
+
+		if (playerInformation.isSpawning) {
+			anim.SetBool("spawn", true);
+			if(motor.grounded) {
+				playerInformation.isSpawning = false;
+				anim.SetBool ("spawn", false);
+			}
+		} else {
+			if (!motor.grounded) {
+				anim.SetBool("jump", true);
+			} else {
+				anim.SetBool("jump", false);
+			}
+		}
 	
-		if (transform.position.y < -5 && this.GetComponent<PlayerInformation>().isAlive) {
-			Debug.Log (this.name + " died");
-			level.playDeathSound();
-			this.GetComponent<PlayerInformation>().isAlive = false;
+		if (transform.position.y < 2 && !playerInformation.isDying) {
+			Debug.Log (this.name + " dying");
+			playerInformation.isDying = true;
+		}
+		if(playerInformation.isDying) {
+			if(transform.position.y < -8 && playerInformation.isAlive){
+				Debug.Log ("Dead");
+				playerInformation.isAlive = false;
+				level.playDeathSound();
+			}
+			anim.SetBool ("idle", false);
+			anim.SetBool ("run", false);
+			anim.SetBool ("runjump", false);
+			anim.SetBool ("death", true);
+			anim.SetBool ("death", true);
 		}
 
 		checkButtons();
+
 	}
 
 	private void checkButtons() {
