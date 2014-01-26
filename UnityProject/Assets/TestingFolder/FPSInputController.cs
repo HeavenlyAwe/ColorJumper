@@ -117,6 +117,7 @@ public class FPSInputController : MonoBehaviour
 			if(motor.grounded) {
 				playerInformation.isSpawning = false;
 				anim.SetBool ("spawn", false);
+				changeColor(gameObject.GetComponent<PlayerInformation>().color);
 			}
 		} else {
 			if (!motor.grounded) {
@@ -137,6 +138,7 @@ public class FPSInputController : MonoBehaviour
 				Debug.Log ("Dead");
 				playerInformation.isAlive = false;
 				level.playDeathSound();
+				changeColor(gameObject.GetComponent<PlayerInformation>().color);
 			}
 			anim.SetBool ("idle", false);
 			anim.SetBool ("run", false);
