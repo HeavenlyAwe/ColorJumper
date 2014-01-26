@@ -78,6 +78,12 @@ public class FPSInputController : MonoBehaviour
 		// transform.position += transform.rotation * directionVector;
 		// motor.inputJump = Input.GetButton("Jump");
 
+		
+		//=================================================
+		/*
+		 * HITTING ANIMATION
+		 */
+		//=================================================
 		float pushValue = Input.GetAxis (this.name + "_Push");
 		if(pushValue > 0.5f){
 			anim.SetBool("push", true);
@@ -85,8 +91,16 @@ public class FPSInputController : MonoBehaviour
 			anim.SetBool("push", false);
 		}
 
+		//=================================================
+		/*
+		 * JUMPING ANIMATION
+		 */
+		//=================================================
 		float jumpValue = Input.GetAxis (this.name + "_Jump");
 		motor.inputJump = jumpValue > 0.5f;
+		if (motor.inputJump && motor.grounded) {
+			level.playJumpSound();
+		}
 
 		if (playerInformation.isSpawning) {
 			anim.SetBool("spawn", true);
@@ -116,7 +130,8 @@ public class FPSInputController : MonoBehaviour
 			anim.SetBool ("run", false);
 			anim.SetBool ("runjump", false);
 			anim.SetBool ("death", true);
-			anim.SetBool ("death", true);
+		} else {
+			anim.SetBool ("death", false);
 		}
 
 		checkButtons();
@@ -125,12 +140,16 @@ public class FPSInputController : MonoBehaviour
 
 	private void checkButtons() {
 		if (Input.GetButton (this.name + "_Green")) {
+			level.playChangeColorSound ();
 			changeColor (PlatformInformation.PlatformColor.GREEN);
 		} else if (Input.GetButton (this.name + "_Red")) {
+			level.playChangeColorSound ();
 			changeColor (PlatformInformation.PlatformColor.RED);
 		} else if (Input.GetButton (this.name + "_Blue")) {
+			level.playChangeColorSound ();
 			changeColor (PlatformInformation.PlatformColor.BLUE); 
 		} else if (Input.GetButton (this.name + "_Yellow")) {
+			level.playChangeColorSound ();
 			changeColor (PlatformInformation.PlatformColor.YELLOW);
 		}
 	}
