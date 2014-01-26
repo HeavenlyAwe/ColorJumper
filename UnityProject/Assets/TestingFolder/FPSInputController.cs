@@ -139,16 +139,16 @@ public class FPSInputController : MonoBehaviour
 	}
 
 	private void checkButtons() {
-		if (Input.GetButton (this.name + "_Green")) {
+		if (Input.GetButtonDown (this.name + "_Green")) {
 			level.playChangeColorSound ();
 			changeColor (PlatformInformation.PlatformColor.GREEN);
-		} else if (Input.GetButton (this.name + "_Red")) {
+		} else if (Input.GetButtonDown (this.name + "_Red")) {
 			level.playChangeColorSound ();
 			changeColor (PlatformInformation.PlatformColor.RED);
-		} else if (Input.GetButton (this.name + "_Blue")) {
+		} else if (Input.GetButtonDown (this.name + "_Blue")) {
 			level.playChangeColorSound ();
 			changeColor (PlatformInformation.PlatformColor.BLUE); 
-		} else if (Input.GetButton (this.name + "_Yellow")) {
+		} else if (Input.GetButtonDown (this.name + "_Yellow")) {
 			level.playChangeColorSound ();
 			changeColor (PlatformInformation.PlatformColor.YELLOW);
 		}

@@ -28,6 +28,9 @@ public class Level : MonoBehaviour {
 
 	public int playerAmount = 2;
 	private Vector3[] spawnCoordinates;
+	public GameObject[] spawnPoints;
+	private float[] spawnPointTimers;
+	public float spawnPointTimerMax = 10;
 
 	private AudioClip[] deathSounds;
 	public AudioClip deathSound1;
@@ -61,6 +64,9 @@ public class Level : MonoBehaviour {
 		deathTimers = new float[playerAmount];
 		respawnAmounts = new int[playerAmount];
 
+		spawnPointTimers = new float[playerAmount];
+		spawnPoints = new GameObject[playerAmount];
+
 		for (int i = 0; i < playerAmount; i++) {
 			spawnPlayer(i);
 			respawnAmounts[i] = respawnAmount;
@@ -68,15 +74,14 @@ public class Level : MonoBehaviour {
 	}
 
 	private void spawnPlayer(int i){
+		Vector3 playerPosition = spawnCoordinates[i];
 		if (players [i] == null) {
-			Vector3 playerPosition = spawnCoordinates[i];
 			players[i] = (GameObject)Instantiate(Resources.Load ("Maincharacter"), playerPosition, Quaternion.identity);
 			players[i].name = "Player" + (i+1);
 			System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
 			players[i].GetComponent<PlayerInformation>().color = (PlatformInformation.PlatformColor)platformColorArray.GetValue(i);
 			playerInformations[i] = players[i].GetComponent<PlayerInformation>();
 		} else {
-			Vector3 playerPosition = spawnCoordinates[i];
 			players[i].transform.position = playerPosition;
 			System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
 			players[i].GetComponent<PlayerInformation>().color = (PlatformInformation.PlatformColor)platformColorArray.GetValue(i);
@@ -84,6 +89,7 @@ public class Level : MonoBehaviour {
 		playerInformations [i].isAlive = true;
 		playerInformations [i].isSpawning = true;
 		playerInformations [i].isDying = false;
+		spawnPoints[i] = (GameObject) Instantiate (Resources.Load ("SpawnPoint"), playerPosition, Quaternion.identity);
 	}
 
 	private void setupLevel(){
@@ -140,6 +146,12 @@ public class Level : MonoBehaviour {
 						deathTimers[i] = 0;
 					}
 				}
+			}
+
+			spawnPointTimers[i] += Time.deltaTime;
+			if(spawnPointTimers[i] >= spawnPointTimerMax){
+				spawnPointTimers[i] = 0;
+				Destroy(spawnPoints[i]);
 			}
 		}
 	}

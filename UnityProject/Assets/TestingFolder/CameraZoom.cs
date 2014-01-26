@@ -123,7 +123,7 @@ public class CameraZoom : MonoBehaviour {
 			meanCenterPoint = (player1position+player2position+player3position+player4position)/4;
 
 			//moving the cameras coordinates according to players position
-			cameraPos = new Vector3 (meanCenterPoint.x-20, meanCenterPoint.y * 50, meanCenterPoint.z-100);
+			cameraPos = new Vector3 (meanCenterPoint.x-20, meanCenterPoint.y * 50, meanCenterPoint.z-200);
 			//cameraPos = cameraBoundaries();
 			camera.transform.position = Vector3.Lerp (transform.position, cameraPos, Time.deltaTime * smooth);
 
