@@ -15,7 +15,7 @@ public class CameraZoom : MonoBehaviour {
 
 	private Vector3 cameraPosition;
 	private Vector3 midPostion;
-	private Vector3 meanCenterPoint;
+	public Vector3 meanCenterPoint;
 	
 	private float distanceBetweenCameraNmidpoint;
 	//	private float distanceBetweenPlayers1n2;
@@ -28,6 +28,10 @@ public class CameraZoom : MonoBehaviour {
 
 	public int playerAmount ;
 
+	public Vector3 cameraPos;
+
+	public Vector3 cameraPosFix;
+
 	
 	// Use this for initialization
 	void Start () {
@@ -39,6 +43,8 @@ public class CameraZoom : MonoBehaviour {
 		
 		//start of a game zoom out view //not working anymore
 		camera.fieldOfView = Mathf.Lerp (camera.fieldOfView,100, Time.deltaTime * smooth);
+
+
 		
 		if(GameObject.Find("Player1")!= null){
 			player1 = GameObject.Find("Player1");
@@ -117,9 +123,12 @@ public class CameraZoom : MonoBehaviour {
 			meanCenterPoint = (player1position+player2position+player3position+player4position)/4;
 
 			//moving the cameras coordinates according to players position
-			Vector3 cameraPos = new Vector3 (meanCenterPoint.x-20, meanCenterPoint.y * 50, meanCenterPoint.z-100);
+			cameraPos = new Vector3 (meanCenterPoint.x-20, meanCenterPoint.y * 50, meanCenterPoint.z-100);
+			cameraPos = 
 			camera.transform.position = Vector3.Lerp (transform.position, cameraPos, Time.deltaTime * smooth);
-			
+
+
+
 			//zooming camera in and out according to players position
 			camera.fieldOfView = Mathf.Lerp (camera.fieldOfView, zoomLevel, Time.deltaTime * smooth);
 
@@ -127,9 +136,19 @@ public class CameraZoom : MonoBehaviour {
 	 
 	 		
 	}
-//
-//	private Vector3 cameraBoundaries(Vector3 initialCameraPos){
-//
-//
-//	}
+
+	Vector3 cameraBoundaries(int i){
+		Level level = GetComponent<Level>();
+	 	
+		if(cameraPos.x<0){
+			cameraPosFix = new Vector3(cameraPos.x+50,cameraPos.y,cameraPos.z);	}
+		if (cameraPos.x > level.width) {
+			cameraPosFix = new Vector3(cameraPos.x-50,cameraPos.y,cameraPos.z);			
+		}
+		if(cameraPos.z <0){
+			cameraPosFix = new Vector3(cameraPos.x,cameraPos.y,cameraPos.z+50);	}
+		if (cameraPos.z > level.height) {
+			cameraPosFix = new Vector3(cameraPos.x,cameraPos.y,cameraPos.z-50);	}
+		} 
+	return cameraPosFix;
 }
