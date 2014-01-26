@@ -7,6 +7,7 @@ public class PlayerInformation : MonoBehaviour {
 	public bool isAlive;
 	public bool isSpawning;
 	public bool isDying;
+	public bool isJumping;
 
 	// Use this for initialization
 	void Start () {

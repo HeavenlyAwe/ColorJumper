@@ -17,9 +17,7 @@ public class Level : MonoBehaviour {
 	public float tileOffset = 0.5f;
 	public float playerSpawnHeight = 15;
 
-	public Camera camera;
-
-	public GameObject[] players;
+ 	public GameObject[] players;
 	public PlayerInformation[] playerInformations;
 	private float[] deathTimers;	// used for managing respawns
 	public float deathTimerMax = 2;
@@ -41,6 +39,7 @@ public class Level : MonoBehaviour {
 	public AudioClip changeColor4;
 
 	public AudioClip jumpSound;
+
 
 	// Use this for initialization
 	void Start () {
@@ -84,6 +83,7 @@ public class Level : MonoBehaviour {
 		playerInformations [i].isAlive = true;
 		playerInformations [i].isSpawning = true;
 		playerInformations [i].isDying = false;
+		playerInformations [i].isJumping = false;
 	}
 
 	private void setupLevel(){

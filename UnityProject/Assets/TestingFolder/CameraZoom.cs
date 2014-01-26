@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class CameraZoom : MonoBehaviour {
@@ -11,9 +11,8 @@ public class CameraZoom : MonoBehaviour {
 	private Vector3 player1position;
 	private Vector3 player2position;
 	private Vector3 player3position;
-	private Vector3 player4position;
-	
-	private Vector3 cameraPosition;
+	private Vector3 player4position; 
+
 	private Vector3 midPostion;
 	public Vector3 meanCenterPoint;
 	
@@ -31,21 +30,34 @@ public class CameraZoom : MonoBehaviour {
 	public Vector3 cameraPos;
 	
 	public Vector3 cameraPosFix;
-	
-	
-	// Use this for initialization
+
+	public float  y;
+
+
+	Level level;
+
+	public float dist1;
+	public float dist2;
+	float dist3;
+	float dist4;
+	//Level level;
+	Vector3 boardMidPoint;
+
+	public Vector3 dist;
+
 	void Start () {
-		
+	//	camera.transform.position (60f, 200f, -125f);
+		level = GetComponent<Level> ();
+		var w = ((level.width+10)/2);
+		var h = ((level.height+10)/2);
+		boardMidPoint = new Vector3(w, 0f,h); 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
-		//start of a game zoom out view //not working anymore
-		camera.fieldOfView = Mathf.Lerp (camera.fieldOfView,100, Time.deltaTime * smooth);
-		
-		
-		
+		 level = GetComponent<Level> ();
+
 		if(GameObject.Find("Player1")!= null){
 			player1 = GameObject.Find("Player1");
 			player1position = player1.transform.position;
@@ -55,12 +67,16 @@ public class CameraZoom : MonoBehaviour {
 			player2 = GameObject.Find("Player2"); 
 			player2position = player2.transform.position;
 			playerAmount = 2;
+			
+			dist1 = Vector3.Distance(player1position,player2position);
 		}
 		
 		if(GameObject.Find("Player3")!= null){
 			player3 = GameObject.Find("Player3"); 
 			player3position = player3.transform.position;
 			playerAmount = 3;
+			
+			dist2 = Vector3.Distance(player1position,player3position);
 		}
 		
 		
@@ -105,50 +121,57 @@ public class CameraZoom : MonoBehaviour {
 			//zooming camera in and out according to players position
 			camera.fieldOfView = Mathf.Lerp (camera.fieldOfView, zoomLevel, Time.deltaTime * smooth);
 		}
-		
-		if (playerAmount == 4) {
-			
-			//			float m = (player1position.x-player4position.x)/(player1position.y-player4position.y);
-			//			float constant = player4position.y - m*player4position.x;
-			//			//equation for 1 and 4 is 
-			//			player4position.y = player4position.x
-			//
-			//
-			//
-			//			float m2 = (player2position.x-player3position.x)/(player2position.y-player3position.y);
-			//			//equation for 1 and 4 is 
-			//			float constant2 = player3position.y - m*player3position.x;
-			//            
-			
+
+		bool h;
+		  
+		if (playerAmount == 4   ) {
+
 			meanCenterPoint = (player1position+player2position+player3position+player4position)/4;
-			
+			meanCenterPoint.y = (float)200;
 			//moving the cameras coordinates according to players position
-			cameraPos = new Vector3 (meanCenterPoint.x-20, meanCenterPoint.y * 50, meanCenterPoint.z-200);
-		
-			camera.transform.position = Vector3.Lerp (transform.position, cameraPos, Time.deltaTime * smooth);
-			
-			
-			
-			//zooming camera in and out according to players position
-			camera.fieldOfView = Mathf.Lerp (camera.fieldOfView, zoomLevel, Time.deltaTime * smooth);
-			
+ 
+			cameraPos = new Vector3 (meanCenterPoint.x, 200, meanCenterPoint.z-200);
+			 			
+		 	camera.transform.position = Vector3.Lerp (transform.position, cameraPos, Time.deltaTime * smooth);
+
+			 //zooming camera in and out according to players position
+		 
+
+			camera.fieldOfView = Mathf.Lerp (camera.fieldOfView,30,(float)0.1); 
+			  
+		} 
+		//center
+		dist = new Vector3 (dist1/2,0f,dist2/2);
+		var distanc1 = Vector3.Distance (player1position, dist);
+		if (distanc1 < 50) {
+						camera.fieldOfView = Mathf.Lerp (camera.fieldOfView, 20, (float)0.1); 
+
+//						float tiltAroundX = 60;
+//						Quaternion target = Quaternion.Euler (tiltAroundX, 0, 0);
+//						camera.transform.rotation = Quaternion.Slerp (transform.rotation, target, Time.deltaTime * 2.0F);
+//						camera.transform.position = new Vector3 (camera.transform.position.x, camera.transform.position.y, camera.transform.position.z + 10);
+//						h = false;
+				} 
+	//	else {
+	//		h = true;
+//		}
+
+
+		var distanc2 = Vector3.Distance (player2position, dist);
+		if ( distanc2 < 50) {
+			camera.fieldOfView = Mathf.Lerp (camera.fieldOfView,20,(float)0.1); 
 		}
-		
-		
-	}
-	
-	//	Vector3 cameraBoundaries(int i){
-	//		Level level = GetComponent<Level>();
-	//	 	
-	//		if(cameraPos.x<0){
-	//			cameraPosFix = new Vector3(cameraPos.x+50,cameraPos.y,cameraPos.z);	}
-	//		if (cameraPos.x > level.width) {
-	//			cameraPosFix = new Vector3(cameraPos.x-50,cameraPos.y,cameraPos.z);			
-	//		}
-	//		if(cameraPos.z <0){
-	//			cameraPosFix = new Vector3(cameraPos.x,cameraPos.y,cameraPos.z+50);	}
-	//		if (cameraPos.z > level.height) {
-	//			cameraPosFix = new Vector3(cameraPos.x,cameraPos.y,cameraPos.z-50);	}
-	//		} 
-	//}
+
+		var distanc3 = Vector3.Distance (player3position, dist);
+		if ( distanc3 < 50) {
+			camera.fieldOfView = Mathf.Lerp (camera.fieldOfView,20,(float)0.1); 
+		}
+
+		var distanc4 = Vector3.Distance (player4position, dist);
+		if ( distanc4 < 50) {
+			camera.fieldOfView = Mathf.Lerp (camera.fieldOfView,20,(float)0.1); 
+		}
+
+
+	} 
 }

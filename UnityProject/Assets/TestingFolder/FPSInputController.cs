@@ -10,7 +10,7 @@ public class FPSInputController : MonoBehaviour
 {
 	private PlayerInformation playerInformation;
 
-	public Animator anim;
+	public Animator anim; 
 	private AnimatorStateInfo currentBaseState;	
 	private AnimatorStateInfo layer2CurrentState;
 	
@@ -63,7 +63,7 @@ public class FPSInputController : MonoBehaviour
 			anim.SetBool ("idle", false);
 		} else {
 			anim.SetBool("idle", true);
-			anim.SetBool ("run", false);
+			anim.SetBool ("run", false); 
 		}
 
 		/*
@@ -110,9 +110,11 @@ public class FPSInputController : MonoBehaviour
 			}
 		} else {
 			if (!motor.grounded) {
-				anim.SetBool("jump", true);
+				anim.SetBool("jump", true); 
+				playerInformation.isJumping = true;
 			} else {
 				anim.SetBool("jump", false);
+				playerInformation.isJumping = false;
 			}
 		}
 	
