@@ -22,7 +22,7 @@ public class coolDownBars : MonoBehaviour {
 	public Rect value;
 	float fullBarWidth;
 	float cooldownSpeed = 300.0f;
-	float scale = 0.33f;
+	float scale = 0.2f;
 	Level level;
 
 	void Start () {
@@ -68,11 +68,11 @@ public class coolDownBars : MonoBehaviour {
 
 	void OnGUI () {
 		// player 1 cooldown bar
-		GUI.BeginGroup (new Rect (spacer, spacer, colorBarFull.width * scale, colorBarFull.height * scale));
+		GUI.BeginGroup (new Rect (spacer, Screen.height - spacer - colorBarFull.height * scale, colorBarFull.width * scale, colorBarFull.height * scale));
 		GUI.DrawTexture (new Rect(0, 0, fullBarWidth, colorBarFull.height * scale ), colorBarFull);
 		GUI.DrawTexture (new Rect(0, 0, barDisplayWidthPlayer1, colorBarFull.height * scale ), colorBarEmpthy);
-		GUI.DrawTexture (new Rect(fullBarWidth -colorball.width * scale, 0,colorball.width * scale, colorball.height * scale), colorball);
-
+		GUI.DrawTexture (new Rect(fullBarWidth - colorball.width * scale, 0,colorball.width * scale, colorball.height * scale), colorball);
+		
 		if (!level.players [0].GetComponent<PlayerInformation> ().isAlive) {
 			GUI.DrawTexture (new Rect (fullBarWidth - colorball.width * scale, 0, colorShiny.width * scale, colorShiny.height * scale), colorBallD);
 		}
@@ -81,25 +81,25 @@ public class coolDownBars : MonoBehaviour {
 		GUI.EndGroup ();
 
 		// player 2 cooldown bar
-		GUI.BeginGroup (new Rect (Screen.width - spacer - fullBarWidth, spacer, colorBarFull.width * scale, colorBarFull.height * scale));
+		GUI.BeginGroup (new Rect (Screen.width - spacer - fullBarWidth, Screen.height - spacer - colorBarFull.height * scale, colorBarFull.width * scale, colorBarFull.height * scale));
 		GUI.DrawTexture (new Rect(0, 0, fullBarWidth, colorBarFull.height * scale ), colorBarFull);
 		GUI.DrawTexture (new Rect(0, 0, barDisplayWidthPlayer2, colorBarFull.height * scale ), colorBarEmpthy);
 		GUI.DrawTexture (new Rect(fullBarWidth - colorball.width * scale, 0,colorball.width * scale, colorball.height * scale), colorball);
-
+		
 		if (!level.players [1].GetComponent<PlayerInformation> ().isAlive) {
 			GUI.DrawTexture (new Rect (fullBarWidth - colorball.width * scale, 0, colorShiny.width * scale, colorShiny.height * scale), colorBallD);
 		}
-
+		
 		GUI.DrawTexture (new Rect(fullBarWidth - colorball.width * scale, 0,colorShiny.width * scale, colorShiny.height * scale), colorShiny);
 		GUI.EndGroup ();
 
 		// player 3 cooldown bar
-		GUI.BeginGroup (new Rect (spacer, Screen.height - spacer - colorBarFull.height * scale, colorBarFull.width * scale, colorBarFull.height * scale));
+		GUI.BeginGroup (new Rect (spacer, spacer, colorBarFull.width * scale, colorBarFull.height * scale));
 		GUI.DrawTexture (new Rect(0, 0, fullBarWidth, colorBarFull.height * scale ), colorBarFull);
 		GUI.DrawTexture (new Rect(0, 0, barDisplayWidthPlayer3, colorBarFull.height * scale ), colorBarEmpthy);
-		GUI.DrawTexture (new Rect(fullBarWidth - colorball.width * scale, 0,colorball.width * scale, colorball.height * scale), colorball);
-
-		if (!level.players [2].GetComponent<PlayerInformation> ().isAlive) {
+		GUI.DrawTexture (new Rect(fullBarWidth -colorball.width * scale, 0,colorball.width * scale, colorball.height * scale), colorball);
+		
+		if (!level.players [3].GetComponent<PlayerInformation> ().isAlive) {
 			GUI.DrawTexture (new Rect (fullBarWidth - colorball.width * scale, 0, colorShiny.width * scale, colorShiny.height * scale), colorBallD);
 		}
 
@@ -107,15 +107,15 @@ public class coolDownBars : MonoBehaviour {
 		GUI.EndGroup ();
 
 		// player 4 cooldown bar
-		GUI.BeginGroup (new Rect (Screen.width - spacer - fullBarWidth, Screen.height - spacer - colorBarFull.height * scale, colorBarFull.width * scale, colorBarFull.height * scale));
+		GUI.BeginGroup (new Rect (Screen.width - spacer - fullBarWidth, spacer, colorBarFull.width * scale, colorBarFull.height * scale));
 		GUI.DrawTexture (new Rect(0, 0, fullBarWidth, colorBarFull.height * scale ), colorBarFull);
 		GUI.DrawTexture (new Rect(0, 0, barDisplayWidthPlayer4, colorBarFull.height * scale ), colorBarEmpthy);
 		GUI.DrawTexture (new Rect(fullBarWidth - colorball.width * scale, 0,colorball.width * scale, colorball.height * scale), colorball);
-
+		
 		if (!level.players [3].GetComponent<PlayerInformation> ().isAlive) {
 			GUI.DrawTexture (new Rect (fullBarWidth - colorball.width * scale, 0, colorShiny.width * scale, colorShiny.height * scale), colorBallD);
 		}
-
+		
 		GUI.DrawTexture (new Rect(fullBarWidth - colorball.width * scale, 0,colorShiny.width * scale, colorShiny.height * scale), colorShiny);
 		GUI.EndGroup ();
 	}
