@@ -37,6 +37,10 @@ public class Level : MonoBehaviour {
 	private AudioClip[] changeColorSounds;
 	public AudioClip changeColor1;
 	public AudioClip changeColor2;
+	public AudioClip changeColor3;
+	public AudioClip changeColor4;
+
+	public AudioClip jumpSound;
 
 	// Use this for initialization
 	void Start () {
@@ -119,6 +123,7 @@ public class Level : MonoBehaviour {
 
 	private void setupSounds(){
 		deathSounds = new AudioClip[]{deathSound1, deathSound2}; //, deathSound3};
+		changeColorSounds = new AudioClip[]{changeColor1, changeColor2, changeColor3, changeColor4};
 	}
 	
 	// Update is called once per frame
@@ -160,6 +165,20 @@ public class Level : MonoBehaviour {
 	public void playDeathSound() {
 		AudioSource source = gameObject.AddComponent<AudioSource> ();
 		source.clip = deathSounds[UnityEngine.Random.Range(0, deathSounds.Length)];
+		source.loop = false;
+		source.Play ();
+	}
+
+	public void playChangeColorSound() {
+		AudioSource source = gameObject.AddComponent<AudioSource> ();
+		source.clip = changeColorSounds [UnityEngine.Random.Range (0, changeColorSounds.Length)];
+		source.loop = false;
+		source.Play ();
+	}
+
+	public void playJumpSound() {
+		AudioSource source = gameObject.AddComponent<AudioSource> ();
+		source.clip = jumpSound;
 		source.loop = false;
 		source.Play ();
 	}
