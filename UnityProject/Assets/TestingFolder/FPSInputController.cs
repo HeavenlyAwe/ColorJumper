@@ -122,10 +122,10 @@ public class FPSInputController : MonoBehaviour
 		} else {
 			if (!motor.grounded) {
 				anim.SetBool("jump", true); 
-				playerInformation.isJumping = true;
+				 
 			} else {
 				anim.SetBool("jump", false);
-				playerInformation.isJumping = false;
+				 
 			}
 		}
 	
