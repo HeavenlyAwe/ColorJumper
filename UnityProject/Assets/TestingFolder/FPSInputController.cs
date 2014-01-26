@@ -18,6 +18,11 @@ public class FPSInputController : MonoBehaviour
 	static int runState = Animator.StringToHash("Base Layer.Run");
 	static int jumpState = Animator.StringToHash("Base Layer.Jump");
 
+	Material materialGreen = (Material) Resources.Load ("Prefabs/Materials/character_green");
+	Material materialRed = (Material) Resources.Load ("Prefabs/Materials/character_red");
+	Material materialBlue = (Material) Resources.Load ("Prefabs/Materials/character_blue");
+	Material materialYellow = (Material) Resources.Load ("Prefabs/Materials/character_yellow");
+
 
     private CharacterMotor motor;
 	private Level level;
@@ -164,6 +169,20 @@ public class FPSInputController : MonoBehaviour
 	private void changeColor(PlatformInformation.PlatformColor color) {
 		gameObject.GetComponent<PlayerInformation>().color = color;
 		gameObject.GetComponent<PlayerInformation> ().coolDownLeft = coolDownBars.MAX_COOLDOWN;
+
+		Material material;
+		if (playerInformation.color == PlatformInformation.PlatformColor.RED) {
+			GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialRed;
+		}
+		else if (playerInformation.color == PlatformInformation.PlatformColor.BLUE) {
+			GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialBlue;
+		}
+		else if (playerInformation.color == PlatformInformation.PlatformColor.YELLOW) {
+			GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialYellow;
+		}
+		else if (playerInformation.color == PlatformInformation.PlatformColor.GREEN) {
+			GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialGreen;
+		}
 
 		for (int i = 0; i < level.width; i++) {
 			for(int j = 0; j < level.height; j++){
