@@ -1,17 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\TestingFolder\FPSInputController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\TestingFolder\Level.cs">
     <Files>
-      <File FileName="Assets\TestingFolder\FPSInputController.cs" Line="61" Column="23" />
-      <File FileName="Assets\Scripts\FadingEffect.cs" Line="35" Column="23" />
-      <File FileName="Assets\TestingFolder\Level.cs" Line="23" Column="33" />
-      <File FileName="Assets\Sounds.cs" Line="7" Column="33" />
+      <File FileName="Assets\TestingFolder\FPSInputController.cs" Line="59" Column="3" />
+      <File FileName="Assets\Scripts\FadingEffect.cs" Line="81" Column="1" />
+      <File FileName="Assets\TestingFolder\Level.cs" Line="106" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Scripts" expanded="True" />
             <Node name="TestingFolder" expanded="True">
               <Node name="FPSInputController.cs" selected="True" />
             </Node>
