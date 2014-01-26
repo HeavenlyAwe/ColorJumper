@@ -52,9 +52,10 @@ public class FPSInputController : MonoBehaviour
 		float jumpValue = Input.GetAxis (this.name + "_Jump");
 		motor.inputJump = Mathf.Abs(jumpValue) > 0.5f;
 	
-		if (transform.position.y < -5) {
-			Debug.Log ("Died");
+		if (transform.position.y < -5 && this.GetComponent<PlayerInformation>().isAlive) {
+			Debug.Log (this.name + " died");
 			level.playDeathSound();
+			this.GetComponent<PlayerInformation>().isAlive = false;
 		}
 
 		checkButtons();

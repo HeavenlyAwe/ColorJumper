@@ -19,6 +19,7 @@ public class Level : MonoBehaviour {
 	public GameObject[] players;
 	public int playerAmount = 2;
 
+	private AudioClip[] deathSounds;
 	public AudioClip deathSound1;
 	public AudioClip deathSound2;
 	public AudioClip deathSound3;
@@ -27,6 +28,7 @@ public class Level : MonoBehaviour {
 	void Start () {	
 		setupPlayers ();
 		setupLevel ();
+		setupSounds ();
 	}
 
 	private void setupPlayers(){
@@ -74,6 +76,10 @@ public class Level : MonoBehaviour {
 			}
 		}
 	}
+
+	private void setupSounds(){
+		deathSounds = new AudioClip[]{deathSound1, deathSound2, deathSound3};
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -99,7 +105,8 @@ public class Level : MonoBehaviour {
 
 	public void playDeathSound() {
 		AudioSource source = gameObject.AddComponent<AudioSource> ();
-		source.clip = deathSound1;
+		source.clip = deathSounds[UnityEngine.Random.Range(0, deathSounds.Length)];
+		source.loop = false;
 		source.Play ();
 	}
 }
