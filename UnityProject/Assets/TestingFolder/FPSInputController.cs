@@ -10,7 +10,7 @@ public class FPSInputController : MonoBehaviour
 {
 	private PlayerInformation playerInformation;
 
-	public Animator anim;
+	public Animator anim; 
 	private AnimatorStateInfo currentBaseState;	
 	private AnimatorStateInfo layer2CurrentState;
 	
@@ -73,7 +73,7 @@ public class FPSInputController : MonoBehaviour
 			anim.SetBool ("idle", false);
 		} else {
 			anim.SetBool("idle", true);
-			anim.SetBool ("run", false);
+			anim.SetBool ("run", false); 
 		}
 
 
@@ -117,12 +117,15 @@ public class FPSInputController : MonoBehaviour
 			if(motor.grounded) {
 				playerInformation.isSpawning = false;
 				anim.SetBool ("spawn", false);
+				changeColor(gameObject.GetComponent<PlayerInformation>().color);
 			}
 		} else {
 			if (!motor.grounded) {
-				anim.SetBool("jump", true);
+				anim.SetBool("jump", true); 
+				 
 			} else {
 				anim.SetBool("jump", false);
+				 
 			}
 		}
 	
@@ -135,6 +138,7 @@ public class FPSInputController : MonoBehaviour
 				Debug.Log ("Dead");
 				playerInformation.isAlive = false;
 				level.playDeathSound();
+				changeColor(gameObject.GetComponent<PlayerInformation>().color);
 			}
 			anim.SetBool ("idle", false);
 			anim.SetBool ("run", false);
