@@ -116,7 +116,8 @@ public class FPSInputController : MonoBehaviour
 			anim.SetBool ("run", false);
 			anim.SetBool ("runjump", false);
 			anim.SetBool ("death", true);
-			anim.SetBool ("death", true);
+		} else {
+			anim.SetBool ("death", false);
 		}
 
 		checkButtons();

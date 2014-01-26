@@ -15,8 +15,17 @@ public class Level : MonoBehaviour {
 	public int tileHeight = 10;
 
 	public float tileOffset = 0.5f;
+	public float playerSpawnHeight = 15;
+
+	public Camera camera;
 
 	public GameObject[] players;
+	public PlayerInformation[] playerInformations;
+	private float[] deathTimers;	// used for managing respawns
+	public float deathTimerMax = 2;
+	private int[] respawnAmounts;
+	public int respawnAmount;
+
 	public int playerAmount = 2;
 	private Vector3[] spawnCoordinates;
 
@@ -25,8 +34,12 @@ public class Level : MonoBehaviour {
 	public AudioClip deathSound2;
 	// public AudioClip deathSound3;
 
+	private AudioClip[] changeColorSounds;
+	public AudioClip changeColor1;
+	public AudioClip changeColor2;
+
 	// Use this for initialization
-	void Start () {	
+	void Start () {
 		setupLevel ();
 		setupSounds ();
 		setupPlayers ();
@@ -34,14 +47,19 @@ public class Level : MonoBehaviour {
 
 	private void setupPlayers(){
 		spawnCoordinates = new Vector3[4];
-		spawnCoordinates [0] = new Vector3 (0, 10, 0);
-		spawnCoordinates [1] = new Vector3 (width * (tileWidth + tileOffset) - tileWidth, 10, 0);
-		spawnCoordinates [2] = new Vector3 (0, 10, height * (tileHeight + tileOffset) - tileHeight);
-		spawnCoordinates [3] = new Vector3(width * (tileWidth + tileOffset) - tileWidth, 10, height * (tileHeight + tileOffset) - tileHeight);
+		spawnCoordinates [0] = new Vector3 (0, playerSpawnHeight, 0);
+		spawnCoordinates [1] = new Vector3 (width * (tileWidth + tileOffset) - tileWidth, 20, 0);
+		spawnCoordinates [2] = new Vector3 (0, 20, height * (tileHeight + tileOffset) - tileHeight);
+		spawnCoordinates [3] = new Vector3(width * (tileWidth + tileOffset) - tileWidth, 20, height * (tileHeight + tileOffset) - tileHeight);
 
 		players = new GameObject[playerAmount];
+		playerInformations = new PlayerInformation[playerAmount];
+		deathTimers = new float[playerAmount];
+		respawnAmounts = new int[playerAmount];
+
 		for (int i = 0; i < playerAmount; i++) {
 			spawnPlayer(i);
+			respawnAmounts[i] = respawnAmount;
 		}
 	}
 
@@ -52,12 +70,16 @@ public class Level : MonoBehaviour {
 			players[i].name = "Player" + (i+1);
 			System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
 			players[i].GetComponent<PlayerInformation>().color = (PlatformInformation.PlatformColor)platformColorArray.GetValue(i);
+			playerInformations[i] = players[i].GetComponent<PlayerInformation>();
 		} else {
 			Vector3 playerPosition = spawnCoordinates[i];
 			players[i].transform.position = playerPosition;
 			System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
 			players[i].GetComponent<PlayerInformation>().color = (PlatformInformation.PlatformColor)platformColorArray.GetValue(i);
 		}
+		playerInformations [i].isAlive = true;
+		playerInformations [i].isSpawning = true;
+		playerInformations [i].isDying = false;
 	}
 
 	private void setupLevel(){
@@ -101,6 +123,20 @@ public class Level : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		transform.position = camera.transform.position;
+
+		for (int i = 0; i < players.Length; i++) {
+			if(!playerInformations[i].isAlive){
+				deathTimers[i] += Time.deltaTime;
+				if (deathTimers[i] >= deathTimerMax) {
+					if(respawnAmounts[i] > 0){
+						respawnAmounts[i]--;
+						spawnPlayer(i);
+						deathTimers[i] = 0;
+					}
+				}
+			}
+		}
 	}
 
 	public GameObject getTile(int x, int z) {
