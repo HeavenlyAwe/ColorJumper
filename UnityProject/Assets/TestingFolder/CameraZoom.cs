@@ -124,7 +124,7 @@ public class CameraZoom : MonoBehaviour {
 
 			//moving the cameras coordinates according to players position
 			cameraPos = new Vector3 (meanCenterPoint.x-20, meanCenterPoint.y * 50, meanCenterPoint.z-100);
-			cameraPos = 
+			//cameraPos = cameraBoundaries();
 			camera.transform.position = Vector3.Lerp (transform.position, cameraPos, Time.deltaTime * smooth);
 
 
@@ -137,18 +137,18 @@ public class CameraZoom : MonoBehaviour {
 	 		
 	}
 
-	Vector3 cameraBoundaries(int i){
-		Level level = GetComponent<Level>();
-	 	
-		if(cameraPos.x<0){
-			cameraPosFix = new Vector3(cameraPos.x+50,cameraPos.y,cameraPos.z);	}
-		if (cameraPos.x > level.width) {
-			cameraPosFix = new Vector3(cameraPos.x-50,cameraPos.y,cameraPos.z);			
-		}
-		if(cameraPos.z <0){
-			cameraPosFix = new Vector3(cameraPos.x,cameraPos.y,cameraPos.z+50);	}
-		if (cameraPos.z > level.height) {
-			cameraPosFix = new Vector3(cameraPos.x,cameraPos.y,cameraPos.z-50);	}
-		} 
-	return cameraPosFix;
+//	Vector3 cameraBoundaries(int i){
+//		Level level = GetComponent<Level>();
+//	 	
+//		if(cameraPos.x<0){
+//			cameraPosFix = new Vector3(cameraPos.x+50,cameraPos.y,cameraPos.z);	}
+//		if (cameraPos.x > level.width) {
+//			cameraPosFix = new Vector3(cameraPos.x-50,cameraPos.y,cameraPos.z);			
+//		}
+//		if(cameraPos.z <0){
+//			cameraPosFix = new Vector3(cameraPos.x,cameraPos.y,cameraPos.z+50);	}
+//		if (cameraPos.z > level.height) {
+//			cameraPosFix = new Vector3(cameraPos.x,cameraPos.y,cameraPos.z-50);	}
+//		} 
+//}
 }
