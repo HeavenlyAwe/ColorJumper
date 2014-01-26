@@ -139,23 +139,26 @@ public class FPSInputController : MonoBehaviour
 	}
 
 	private void checkButtons() {
-		if (Input.GetButtonDown (this.name + "_Green")) {
-			level.playChangeColorSound ();
-			changeColor (PlatformInformation.PlatformColor.GREEN);
-		} else if (Input.GetButtonDown (this.name + "_Red")) {
-			level.playChangeColorSound ();
-			changeColor (PlatformInformation.PlatformColor.RED);
-		} else if (Input.GetButtonDown (this.name + "_Blue")) {
-			level.playChangeColorSound ();
-			changeColor (PlatformInformation.PlatformColor.BLUE); 
-		} else if (Input.GetButtonDown (this.name + "_Yellow")) {
-			level.playChangeColorSound ();
-			changeColor (PlatformInformation.PlatformColor.YELLOW);
+		if (gameObject.GetComponent<PlayerInformation> ().coolDownLeft <= 0.0f) {
+			if (Input.GetButtonDown (this.name + "_Green")) {
+					level.playChangeColorSound ();
+					changeColor (PlatformInformation.PlatformColor.GREEN);
+			} else if (Input.GetButtonDown (this.name + "_Red")) {
+					level.playChangeColorSound ();
+					changeColor (PlatformInformation.PlatformColor.RED);
+			} else if (Input.GetButtonDown (this.name + "_Blue")) {
+					level.playChangeColorSound ();
+					changeColor (PlatformInformation.PlatformColor.BLUE); 
+			} else if (Input.GetButtonDown (this.name + "_Yellow")) {
+					level.playChangeColorSound ();
+					changeColor (PlatformInformation.PlatformColor.YELLOW);
+			}
 		}
 	}
 	
 	private void changeColor(PlatformInformation.PlatformColor color) {
 		gameObject.GetComponent<PlayerInformation>().color = color;
+		gameObject.GetComponent<PlayerInformation> ().coolDownLeft = coolDownBars.MAX_COOLDOWN;
 
 		for (int i = 0; i < level.width; i++) {
 			for(int j = 0; j < level.height; j++){
