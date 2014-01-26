@@ -19,8 +19,9 @@ public class Level : MonoBehaviour {
 	public GameObject[] players;
 	public int playerAmount = 2;
 
-
-	public AudioSource deathSound1;
+	public AudioClip deathSound1;
+	public AudioClip deathSound2;
+	public AudioClip deathSound3;
 
 	// Use this for initialization
 	void Start () {	
@@ -94,5 +95,11 @@ public class Level : MonoBehaviour {
 		}
 
 		return colors;
+	}
+
+	public void playDeathSound() {
+		AudioSource source = gameObject.AddComponent<AudioSource> ();
+		source.clip = deathSound1;
+		source.Play ();
 	}
 }

@@ -11,15 +11,11 @@ public class FPSInputController : MonoBehaviour
     private CharacterMotor motor;
 	private Level level;
 
-	private AudioSource[] deathSounds;
-
     // Use this for initialization
     void Awake()
     {
         motor = GetComponent<CharacterMotor> ();
 		level = GameObject.Find ("Level").GetComponent<Level>();
-
-		deathSounds = GetComponents <AudioSource>();
 	}
 
     // Update is called once per frame
@@ -58,10 +54,8 @@ public class FPSInputController : MonoBehaviour
 	
 		if (transform.position.y < -5) {
 			Debug.Log ("Died");
-			deathSounds[0].transform.position = new Vector3(50, 60, -30);
-			deathSounds[0].Play();
+			level.playDeathSound();
 		}
-
 
 		checkButtons();
 	}
