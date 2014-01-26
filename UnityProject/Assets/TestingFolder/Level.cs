@@ -47,7 +47,6 @@ public class Level : MonoBehaviour {
 				tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform"), pos, Quaternion.identity);
 				tiles[i, j].name = "Tile_x" + i + "_y" + j;
 
-
 				// choose random color for the tile:
 				PlatformInformation platformInfo = tiles[i,j].GetComponent<PlatformInformation>();
 				System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));

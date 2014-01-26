@@ -55,8 +55,7 @@ public class FPSInputController : MonoBehaviour
 
 		float jumpValue = Input.GetAxis (this.name + "_Jump");
 		motor.inputJump = Mathf.Abs(jumpValue) > 0.5f;
-
-
+	
 		if (transform.position.y < -5) {
 			Debug.Log ("Died");
 			deathSounds[0].transform.position = new Vector3(50, 60, -30);
