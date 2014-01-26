@@ -6,6 +6,9 @@ public class Level : MonoBehaviour {
 	// Instance to the tile object
 	// public GameObject tile;
 
+	public GameObject endScreen;
+	public EndingScreen endScript;
+
 	Material materialGreen;
 	Material materialRed;
 	Material materialBlue;
@@ -197,6 +200,10 @@ public class Level : MonoBehaviour {
 				Destroy(spawnPoints[i]);
 			}
 		}
+		
+		if (allDead()) {
+			endScreen.GetComponent<EndingScreen>().ending = true;
+		}
 
 	}
 
@@ -216,6 +223,15 @@ public class Level : MonoBehaviour {
 		}
 
 		return colors;
+	}
+
+	private bool allDead(){
+		for (int i = 0; i < players.Length; i++) {
+			if(respawnAmounts[i] > 0){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void playDeathSound(){
