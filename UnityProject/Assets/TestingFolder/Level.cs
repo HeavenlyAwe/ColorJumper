@@ -22,7 +22,7 @@ public class Level : MonoBehaviour {
 	private AudioClip[] deathSounds;
 	public AudioClip deathSound1;
 	public AudioClip deathSound2;
-	public AudioClip deathSound3;
+	// public AudioClip deathSound3;
 
 	// Use this for initialization
 	void Start () {	
@@ -78,7 +78,7 @@ public class Level : MonoBehaviour {
 	}
 
 	private void setupSounds(){
-		deathSounds = new AudioClip[]{deathSound1, deathSound2, deathSound3};
+		deathSounds = new AudioClip[]{deathSound1, deathSound2}; //, deathSound3};
 	}
 	
 	// Update is called once per frame
