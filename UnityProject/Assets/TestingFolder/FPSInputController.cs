@@ -18,6 +18,11 @@ public class FPSInputController : MonoBehaviour
 	static int runState = Animator.StringToHash("Base Layer.Run");
 	static int jumpState = Animator.StringToHash("Base Layer.Jump");
 
+	Material materialGreen = (Material) Resources.Load ("Prefabs/Materials/character_green");
+	Material materialRed = (Material) Resources.Load ("Prefabs/Materials/character_red");
+	Material materialBlue = (Material) Resources.Load ("Prefabs/Materials/character_blue");
+	Material materialYellow = (Material) Resources.Load ("Prefabs/Materials/character_yellow");
+
 
     private CharacterMotor motor;
 	private Level level;
@@ -39,7 +44,11 @@ public class FPSInputController : MonoBehaviour
 		movePlayer ();
     }
 
+	private Vector3 previousPosition;
+
 	private void movePlayer() {
+
+		previousPosition = transform.position;
 
 		Vector3 directionVector = new Vector3 (Input.GetAxis (this.name + "_Horizontal"), 0, Input.GetAxis (this.name + "_Vertical"));
 		if (directionVector != Vector3.zero) {
@@ -57,7 +66,8 @@ public class FPSInputController : MonoBehaviour
 			
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
-
+			
+			transform.rotation = Quaternion.Lerp (transform.rotation,  Quaternion.LookRotation(directionVector), Time.fixedDeltaTime * 10);
 
 			anim.SetBool ("run", true);
 			anim.SetBool ("idle", false);
@@ -66,14 +76,14 @@ public class FPSInputController : MonoBehaviour
 			anim.SetBool ("run", false); 
 		}
 
-		/*
-		Vector3 moveDirection = transform.rotation * directionVector;
-		Quaternion newRotation = Quaternion.LookRotation (directionVector);
-		transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 8);
-*/
+
+
 
 		// Apply the direction to the CharacterMotor
-		motor.inputMoveDirection = transform.rotation * directionVector;
+		// motor.inputMoveDirection = transform.rotation * directionVector;
+		motor.inputMoveDirection = directionVector;
+
+
 
 		// transform.position += transform.rotation * directionVector;
 		// motor.inputJump = Input.GetButton("Jump");
@@ -141,34 +151,53 @@ public class FPSInputController : MonoBehaviour
 	}
 
 	private void checkButtons() {
-		if (Input.GetButton (this.name + "_Green")) {
-			level.playChangeColorSound ();
-			changeColor (PlatformInformation.PlatformColor.GREEN);
-		} else if (Input.GetButton (this.name + "_Red")) {
-			level.playChangeColorSound ();
-			changeColor (PlatformInformation.PlatformColor.RED);
-		} else if (Input.GetButton (this.name + "_Blue")) {
-			level.playChangeColorSound ();
-			changeColor (PlatformInformation.PlatformColor.BLUE); 
-		} else if (Input.GetButton (this.name + "_Yellow")) {
-			level.playChangeColorSound ();
-			changeColor (PlatformInformation.PlatformColor.YELLOW);
+		if (gameObject.GetComponent<PlayerInformation> ().coolDownLeft <= 0.0f) {
+			if (Input.GetButtonDown (this.name + "_Green")) {
+					level.playChangeColorSound ();
+					changeColor (PlatformInformation.PlatformColor.GREEN);
+			} else if (Input.GetButtonDown (this.name + "_Red")) {
+					level.playChangeColorSound ();
+					changeColor (PlatformInformation.PlatformColor.RED);
+			} else if (Input.GetButtonDown (this.name + "_Blue")) {
+					level.playChangeColorSound ();
+					changeColor (PlatformInformation.PlatformColor.BLUE); 
+			} else if (Input.GetButtonDown (this.name + "_Yellow")) {
+					level.playChangeColorSound ();
+					changeColor (PlatformInformation.PlatformColor.YELLOW);
+			}
 		}
 	}
 	
 	private void changeColor(PlatformInformation.PlatformColor color) {
 		gameObject.GetComponent<PlayerInformation>().color = color;
+		gameObject.GetComponent<PlayerInformation> ().coolDownLeft = coolDownBars.MAX_COOLDOWN;
+
+		Material material;
+		if (playerInformation.color == PlatformInformation.PlatformColor.RED) {
+			GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialRed;
+		}
+		else if (playerInformation.color == PlatformInformation.PlatformColor.BLUE) {
+			GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialBlue;
+		}
+		else if (playerInformation.color == PlatformInformation.PlatformColor.YELLOW) {
+			GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialYellow;
+		}
+		else if (playerInformation.color == PlatformInformation.PlatformColor.GREEN) {
+			GetComponentInChildren<SkinnedMeshRenderer>().renderer.material = materialGreen;
+		}
 
 		for (int i = 0; i < level.width; i++) {
 			for(int j = 0; j < level.height; j++){
 				PlatformInformation platformInfo = level.tiles[i, j].GetComponent<PlatformInformation>();
-				FadingEffect tileFadeEffect = platformInfo.fadingEffect;
+				if (platformInfo != null) {
+					FadingEffect tileFadeEffect = platformInfo.fadingEffect;
 
-				if (!level.getCurrentlyActiveColors().Contains(platformInfo.platformColor)) {
-					tileFadeEffect.FadeOutTile ();
-				}
-				else {
-					tileFadeEffect.FadeInTile ();
+					if (!level.getCurrentlyActiveColors().Contains(platformInfo.platformColor)) {
+						tileFadeEffect.FadeOutTile ();
+					}
+					else {
+						tileFadeEffect.FadeInTile ();
+					}
 				}
 			}
 		}
