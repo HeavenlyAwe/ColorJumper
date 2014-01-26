@@ -101,32 +101,43 @@ public class Level : MonoBehaviour {
 		for (int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++){
 				Vector3 pos = new Vector3(i * (tileWidth + tileOffset), 0, j * (tileHeight + tileOffset));
-				tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform"), pos, Quaternion.identity);
-				tiles[i, j].name = "Tile_x" + i + "_y" + j;
+				if (i == 0 && j == 0 && playerAmount >= 1 ||
+				    i == width - 1 && j == 0 && playerAmount >= 2 ||
+				    i == 0 && j == height - 1 && playerAmount >= 3 ||
+				    i == width - 1 && j == height - 1 && playerAmount >= 4) {
+					tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform_SpawnPoint"), pos, Quaternion.identity);
+					tiles[i, j].name = "Tile_x" + i + "_y" + j;
+				} else if (i == Mathf.Round(width / 2) && j == Mathf.Round(height / 2)) {
+						tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform_Goal"), pos, Quaternion.identity);
+					tiles[i, j].name = "Tile_x" + i + "_y" + j;
+				} else {
+					tiles[i, j] = (GameObject) Instantiate(Resources.Load ("Prefabs/Platform"), pos, Quaternion.identity);
+					tiles[i, j].name = "Tile_x" + i + "_y" + j;
 
-				// choose random color for the tile:
-				PlatformInformation platformInfo = tiles[i,j].GetComponent<PlatformInformation>();
-				System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
-				int randomColorNumber = UnityEngine.Random.Range(0, platformColorArray.Length);
-				platformInfo.platformColor = (PlatformInformation.PlatformColor)platformColorArray.GetValue(randomColorNumber);
+					// choose random color for the tile:
+					PlatformInformation platformInfo = tiles[i,j].GetComponent<PlatformInformation>();
+					System.Array platformColorArray = System.Enum.GetValues(typeof(PlatformInformation.PlatformColor));
+					int randomColorNumber = UnityEngine.Random.Range(0, platformColorArray.Length);
+					platformInfo.platformColor = (PlatformInformation.PlatformColor)platformColorArray.GetValue(randomColorNumber);
 
 
-				Material material = (Material) Resources.Load ("Prefabs/Materials/platform_red");
+					Material material = (Material) Resources.Load ("Prefabs/Materials/platform_red");
 
-				if (platformInfo.platformColor == PlatformInformation.PlatformColor.RED) {
-					material = (Material) Resources.Load ("Prefabs/Materials/platform_red");
+					if (platformInfo.platformColor == PlatformInformation.PlatformColor.RED) {
+						material = (Material) Resources.Load ("Prefabs/Materials/platform_red");
+					}
+					else if (platformInfo.platformColor == PlatformInformation.PlatformColor.BLUE) {
+						material = (Material) Resources.Load ("Prefabs/Materials/platform_blue");
+					}
+					else if (platformInfo.platformColor == PlatformInformation.PlatformColor.YELLOW) {
+						material = (Material) Resources.Load ("Prefabs/Materials/platform_yellow");
+					}
+					else if (platformInfo.platformColor == PlatformInformation.PlatformColor.GREEN) {
+						material = (Material) Resources.Load ("Prefabs/Materials/platform_green");
+					}
+
+					platformInfo.tileObject.renderer.material = material;
 				}
-				else if (platformInfo.platformColor == PlatformInformation.PlatformColor.BLUE) {
-					material = (Material) Resources.Load ("Prefabs/Materials/platform_blue");
-				}
-				else if (platformInfo.platformColor == PlatformInformation.PlatformColor.YELLOW) {
-					material = (Material) Resources.Load ("Prefabs/Materials/platform_yellow");
-				}
-				else if (platformInfo.platformColor == PlatformInformation.PlatformColor.GREEN) {
-					material = (Material) Resources.Load ("Prefabs/Materials/platform_green");
-				}
-
-				platformInfo.tileObject.renderer.material = material;
 			}
 		}
 	}
