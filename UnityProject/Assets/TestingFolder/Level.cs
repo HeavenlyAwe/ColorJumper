@@ -32,6 +32,10 @@ public class Level : MonoBehaviour {
 	private float[] spawnPointTimers;
 	public float spawnPointTimerMax = 10;
 
+
+	
+	private AudioSource[] audioSource;
+
 	private AudioClip[] deathSounds;
 	public AudioClip deathSound1;
 	public AudioClip deathSound2;
@@ -128,6 +132,10 @@ public class Level : MonoBehaviour {
 	}
 
 	private void setupSounds(){
+		audioSource = new AudioSource[10];
+		for (int i = 0; i < audioSource.Length; i++){
+			audioSource[i] = gameObject.AddComponent<AudioSource> ();
+		}
 		deathSounds = new AudioClip[]{deathSound1, deathSound2}; //, deathSound3};
 		changeColorSounds = new AudioClip[]{changeColor1, changeColor2, changeColor3, changeColor4};
 	}
@@ -154,6 +162,7 @@ public class Level : MonoBehaviour {
 				Destroy(spawnPoints[i]);
 			}
 		}
+
 	}
 
 	public GameObject getTile(int x, int z) {
@@ -174,24 +183,34 @@ public class Level : MonoBehaviour {
 		return colors;
 	}
 
-	public void playDeathSound() {
-		AudioSource source = gameObject.AddComponent<AudioSource> ();
-		source.clip = deathSounds[UnityEngine.Random.Range(0, deathSounds.Length)];
-		source.loop = false;
-		source.Play ();
+	public void playDeathSound(){
+		for(int i=0; i < audioSource.Length; i++){
+			if (audioSource[i] != null && !audioSource[i].isPlaying) {
+				audioSource[i].clip = deathSounds [UnityEngine.Random.Range (0, deathSounds.Length)];
+				audioSource[i].loop = false;
+				audioSource[i].Play ();
+			}
+		}
 	}
 
 	public void playChangeColorSound() {
-		AudioSource source = gameObject.AddComponent<AudioSource> ();
-		source.clip = changeColorSounds [UnityEngine.Random.Range (0, changeColorSounds.Length)];
-		source.loop = false;
-		source.Play ();
+		for (int i=0; i < audioSource.Length; i++) {
+			if (audioSource[i] != null && !audioSource[i].isPlaying) {
+				audioSource[i].clip = changeColorSounds [UnityEngine.Random.Range (0, changeColorSounds.Length)];
+				audioSource[i].loop = false;
+				audioSource[i].Play ();
+			}
+		}
 	}
 
 	public void playJumpSound() {
-		AudioSource source = gameObject.AddComponent<AudioSource> ();
-		source.clip = jumpSound;
-		source.loop = false;
-		source.Play ();
+		for(int i=0; i < audioSource.Length; i++){
+			if (audioSource[i] != null && !audioSource[i].isPlaying) {
+				audioSource[i].clip = jumpSound;
+				audioSource[i].loop = false;
+				audioSource[i].volume = 0.1f;
+				audioSource[i].Play ();
+			}
+		}
 	}
 }

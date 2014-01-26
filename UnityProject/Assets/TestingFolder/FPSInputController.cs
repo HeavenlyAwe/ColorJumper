@@ -39,7 +39,11 @@ public class FPSInputController : MonoBehaviour
 		movePlayer ();
     }
 
+	private Vector3 previousPosition;
+
 	private void movePlayer() {
+
+		previousPosition = transform.position;
 
 		Vector3 directionVector = new Vector3 (Input.GetAxis (this.name + "_Horizontal"), 0, Input.GetAxis (this.name + "_Vertical"));
 		if (directionVector != Vector3.zero) {
@@ -57,7 +61,8 @@ public class FPSInputController : MonoBehaviour
 			
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
-
+			
+			transform.rotation = Quaternion.Lerp (transform.rotation,  Quaternion.LookRotation(directionVector), Time.fixedDeltaTime * 10);
 
 			anim.SetBool ("run", true);
 			anim.SetBool ("idle", false);
@@ -66,14 +71,14 @@ public class FPSInputController : MonoBehaviour
 			anim.SetBool ("run", false);
 		}
 
-		/*
-		Vector3 moveDirection = transform.rotation * directionVector;
-		Quaternion newRotation = Quaternion.LookRotation (directionVector);
-		transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 8);
-*/
+
+
 
 		// Apply the direction to the CharacterMotor
-		motor.inputMoveDirection = transform.rotation * directionVector;
+		// motor.inputMoveDirection = transform.rotation * directionVector;
+		motor.inputMoveDirection = directionVector;
+
+
 
 		// transform.position += transform.rotation * directionVector;
 		// motor.inputJump = Input.GetButton("Jump");
