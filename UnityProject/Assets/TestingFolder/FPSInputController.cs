@@ -163,13 +163,15 @@ public class FPSInputController : MonoBehaviour
 		for (int i = 0; i < level.width; i++) {
 			for(int j = 0; j < level.height; j++){
 				PlatformInformation platformInfo = level.tiles[i, j].GetComponent<PlatformInformation>();
-				FadingEffect tileFadeEffect = platformInfo.fadingEffect;
+				if (platformInfo != null) {
+					FadingEffect tileFadeEffect = platformInfo.fadingEffect;
 
-				if (!level.getCurrentlyActiveColors().Contains(platformInfo.platformColor)) {
-					tileFadeEffect.FadeOutTile ();
-				}
-				else {
-					tileFadeEffect.FadeInTile ();
+					if (!level.getCurrentlyActiveColors().Contains(platformInfo.platformColor)) {
+						tileFadeEffect.FadeOutTile ();
+					}
+					else {
+						tileFadeEffect.FadeInTile ();
+					}
 				}
 			}
 		}
