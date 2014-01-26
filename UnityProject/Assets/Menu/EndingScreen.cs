@@ -14,7 +14,7 @@ public class EndingScreen : MonoBehaviour {
 			if (GUI.Button(new Rect(Screen.width/2 - retry.width/4, Screen.height/2 - retry.height/2, retry.width/2, retry.height/2), "", retryStyle))
 			{
 				Debug.Log("retry game");
-				Application.LoadLevel(0);
+				Application.LoadLevel(1);
 				ending = false;
 			}
 			if (GUI.Button(new Rect(Screen.width/2 - quit.width/4, Screen.height/2 + 20, quit.width/2, quit.height/2), "", quitStyle)) {

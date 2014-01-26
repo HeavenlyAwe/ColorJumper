@@ -125,7 +125,7 @@ public class MenuScreen : MonoBehaviour {
 				Debug.Log("Player 4 chosen");
 			}
 			if (GUI.Button(new Rect (Screen.width/2 - startWidth/4 ,space * 3 + logoHeight + 150, startWidth/2, startHeight/2), "", startStyle)) {
-				Application.LoadLevel(0);
+				Application.LoadLevel(1);
 				Debug.Log("start game!");
 			}
 		}
